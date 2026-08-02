@@ -1,0 +1,201 @@
+@import "tailwindcss";
+
+/* ==========================================================================
+   RuralStay AI — Design Tokens
+   A field-guide / travel-journal aesthetic: deep pine-ink editorial bands
+   alternating with warm kraft-paper content, stitched together by a
+   postmark/stamp signature motif used across badges, dividers and cards.
+   ========================================================================== */
+
+@theme {
+  /* --- Color: named palette ------------------------------------------- */
+  --color-pine-950: #1e3d32;   /* forest-green ink, nav/footer/hero base */
+  --color-pine-900: #2a5245;   /* primary dark surface */
+  --color-pine-800: #396c5b;   /* raised dark surface / hover */
+  --color-pine-700: #518573;   /* borders on dark */
+  --color-paper: #ede3c8;      /* warm kraft paper canvas */
+  --color-paper-dim: #e4d9ba;  /* recessed paper surface */
+  --color-paper-light: #f6f1e2;/* lightest paper, card faces */
+  --color-marigold: #dda328;   /* primary accent — turmeric gold */
+  --color-marigold-dark: #b9821c;
+  --color-clay: #a64b32;       /* secondary accent — deep terracotta clay */
+  --color-clay-dark: #863c28;
+  --color-ink: #1c1b15;        /* primary text on paper */
+  --color-ink-soft: #4a4738;   /* secondary text on paper */
+  --color-mist: #7c8c7f;       /* muted sage-grey, borders/captions */
+
+  /* --- Type -------------------------------------------------------------*/
+  --font-display: "Fraunces", ui-serif, Georgia, serif;
+  --font-body: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+
+  /* --- Radius / shadow tokens -------------------------------------------*/
+  --radius-card: 1.1rem;
+  --shadow-card: 0 1px 2px rgba(16, 31, 25, 0.06), 0 12px 28px -12px rgba(16, 31, 25, 0.25);
+  --shadow-card-hover: 0 2px 4px rgba(16, 31, 25, 0.08), 0 22px 40px -16px rgba(16, 31, 25, 0.32);
+}
+
+/* ==========================================================================
+   Base
+   ========================================================================== */
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-paper);
+  font-feature-settings: "ss01" 1, "cv05" 1;
+}
+
+::selection {
+  background: var(--color-marigold);
+  color: var(--color-pine-950);
+}
+
+/* Visible keyboard focus everywhere, quietly consistent with the accent */
+:focus-visible {
+  outline: 2px solid var(--color-marigold);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ==========================================================================
+   Signature motif — postmark / stamp texture helpers
+   ========================================================================== */
+
+.bg-topo {
+  background-image:
+    radial-gradient(circle at 15% 20%, rgba(221, 163, 40, 0.10), transparent 45%),
+    radial-gradient(circle at 85% 75%, rgba(166, 75, 50, 0.12), transparent 40%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400' viewBox='0 0 400 400'%3E%3Cg fill='none' stroke='%23e7d8a8' stroke-opacity='0.16' stroke-width='1'%3E%3Ccircle cx='60' cy='340' r='40'/%3E%3Ccircle cx='60' cy='340' r='80'/%3E%3Ccircle cx='60' cy='340' r='120'/%3E%3Ccircle cx='340' cy='40' r='50'/%3E%3Ccircle cx='340' cy='40' r='95'/%3E%3Ccircle cx='340' cy='40' r='140'/%3E%3Cpath d='M0 220 Q100 180 200 220 T400 220'/%3E%3Cpath d='M0 260 Q100 220 200 260 T400 260'/%3E%3C/g%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
+.perforated {
+  background-image: radial-gradient(circle, var(--color-paper) 2.5px, transparent 2.6px);
+  background-size: 14px 14px;
+  background-position: center;
+}
+
+.dotted-rule {
+  background-image: linear-gradient(to right, var(--color-mist) 45%, transparent 0%);
+  background-position: bottom;
+  background-size: 10px 1.5px;
+  background-repeat: repeat-x;
+}
+
+/* Rotated postmark badge used on cards + hero */
+.stamp {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1.5px dashed currentColor;
+  border-radius: 999px;
+  transform: rotate(-8deg);
+}
+
+/* Ticket-style card: soft body + notch cut corners via mask */
+.ticket {
+  --notch: 14px;
+  mask-image:
+    radial-gradient(circle var(--notch) at var(--notch) var(--notch), transparent 98%, black 100%),
+    radial-gradient(circle var(--notch) at calc(100% - var(--notch)) var(--notch), transparent 98%, black 100%);
+  mask-composite: intersect;
+  -webkit-mask-composite: source-in;
+}
+
+/* ==========================================================================
+   Utility animations (used sparingly — one orchestrated hero entrance)
+   ========================================================================== */
+
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-rise-in {
+  animation: rise-in 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes float-slow {
+  0%, 100% { transform: translateY(0) rotate(-8deg); }
+  50% { transform: translateY(-8px) rotate(-4deg); }
+}
+
+.animate-float-slow {
+  animation: float-slow 6s ease-in-out infinite;
+}
+
+/* ==========================================================================
+   Dark mode (toggled via ThemeToggle adding .dark-theme to <body>)
+   Re-themed to match the new palette: paper areas invert to ink surfaces,
+   already-dark editorial bands stay put.
+   ========================================================================== */
+
+.dark-theme {
+  background-color: var(--color-pine-950);
+  color: #ece6d3;
+}
+
+.dark-theme main,
+.dark-theme section {
+  background-color: var(--color-pine-950) !important;
+}
+
+.dark-theme .surface {
+  background-color: var(--color-pine-900) !important;
+  border-color: var(--color-pine-700) !important;
+  color: #ece6d3 !important;
+}
+
+.dark-theme .surface-light {
+  background-color: var(--color-pine-900) !important;
+  color: #ece6d3 !important;
+}
+
+.dark-theme .card-dark {
+  background-color: var(--color-pine-900) !important;
+  color: #ece6d3 !important;
+  border-color: var(--color-pine-700) !important;
+}
+
+.dark-theme .card-dark p,
+.dark-theme .card-dark span {
+  color: #cdd6c9 !important;
+}
+
+.dark-theme input,
+.dark-theme textarea {
+  background-color: var(--color-pine-900) !important;
+  color: #ece6d3 !important;
+  border-color: var(--color-pine-700) !important;
+}
+
+.dark-theme .text-ink {
+  color: #ece6d3 !important;
+}
+
+.dark-theme .text-ink-soft {
+  color: #b9c2b3 !important;
+}
