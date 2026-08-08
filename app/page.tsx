@@ -7,6 +7,9 @@ import Card from "../components/Card";
 import Footer from "../components/Footer";
 import Loader from "../components/ui/Loader";
 
+const API_URL =
+  process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+
 type Homestay = {
   id: number;
   name: string;
@@ -45,7 +48,7 @@ export default function Home() {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/homestays")
+    fetch(`${API_URL}/api/homestays`)
       .then(async (res) => {
         if (!res.ok) throw new Error("Failed to load homestays.");
         return res.json();
@@ -72,7 +75,7 @@ export default function Home() {
     setError("");
 
     try {
-      const res = await fetch("http://localhost:5000/api/ai/recommend", {
+      const res = await fetch(`${API_URL}/api/ai/recommend`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
