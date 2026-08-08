@@ -156,4 +156,32 @@ node server.js
 
 ```bash
 npm run dev
+
+## Live Deployment
+
+### Frontend URL
+
+https://homestay-platform-8pgp-rho.vercel.app/
+
+### Backend URL
+
+https://homestay-backend-aqcn.onrender.com
+
+## Tech Stack
+
+* **Frontend:** Next.js, React, Tailwind CSS
+* **Backend:** Node.js, Express.js
+* **Database:** Supabase
+* **Authentication:** JWT
+* **AI Integration:** OpenRouter API
+* **Deployment:**
+
+  * Frontend: Vercel
+  * Backend: Render
+
+## Known Limitations (Free Tier)
+
+* The Render free tier spins down the backend service after a period of inactivity. The first request after the service has been idle may take approximately 30–60 seconds while the server wakes up.
+* The frontend-backend integration is currently being finalized. Some features, such as loading homestays, may not work until the API connection/CORS configuration is completed.
+
 ```

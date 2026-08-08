@@ -40,7 +40,7 @@ export default function Dashboard() {
   const [deletingId, setDeletingId] = useState<number | null>(null);
   const [toastMessage, setToastMessage] = useState("");
 
-  const API = "http://localhost:5000/api/homestays";
+  const API = `${process.env.NEXT_PUBLIC_API_URL}/api/homestays`;
 
   useEffect(() => {
     const checkAuth = async () => {

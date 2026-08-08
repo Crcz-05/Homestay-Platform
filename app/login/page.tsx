@@ -22,21 +22,24 @@ export default function Login() {
     setError("");
 
     try {
-      const response = await fetch("http://localhost:5000/api/auth/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email,
-          password,
-        }),
-      });
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/auth/login`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email,
+            password,
+          }),
+        }
+      );
 
       const data = await response.json();
 
       if (!response.ok) {
-        setError(data.message);
+        setError(data.message || "Login failed.");
         setLoading(false);
         return;
       }
@@ -46,6 +49,7 @@ export default function Login() {
 
       router.push("/dashboard");
     } catch (err) {
+      console.error(err);
       setError("Unable to connect to server.");
     }
 
@@ -56,7 +60,7 @@ export default function Login() {
     const { error } = await supabase.auth.signInWithOAuth({
       provider: "google",
       options: {
-        redirectTo: "http://localhost:3000/dashboard",
+        redirectTo: `${window.location.origin}/dashboard`,
       },
     });
 
@@ -66,7 +70,7 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="flex min-h-screen flex-col">
       <Navbar />
 
       <main className="flex flex-grow items-center justify-center bg-paper-dim px-6 py-16">
@@ -74,6 +78,7 @@ export default function Login() {
           <p className="text-center font-mono text-xs uppercase tracking-[0.3em] text-clay">
             Welcome back
           </p>
+
           <h1 className="mt-2 text-center font-display text-3xl text-ink">
             Login
           </h1>
@@ -97,7 +102,11 @@ export default function Login() {
               required
             />
 
-            {error && <p className="text-sm text-clay-dark">{error}</p>}
+            {error && (
+              <p className="text-sm text-clay-dark">
+                {error}
+              </p>
+            )}
 
             <button
               type="submit"
@@ -113,15 +122,22 @@ export default function Login() {
               className="flex w-full items-center justify-center gap-2.5 rounded-full border border-ink/15 py-3.5 text-sm font-medium text-ink transition-colors hover:border-marigold"
             >
               <svg width="16" height="16" viewBox="0 0 24 24">
-                <path fill="#EA4335" d="M12 10.2v3.9h5.5c-.24 1.3-1.7 3.8-5.5 3.8-3.3 0-6-2.7-6-6.1s2.7-6.1 6-6.1c1.9 0 3.1.8 3.9 1.5l2.6-2.5C16.9 3.2 14.7 2.2 12 2.2 6.8 2.2 2.6 6.4 2.6 11.8S6.8 21.4 12 21.4c6.9 0 9.6-4.8 9.6-7.3 0-.5 0-.9-.1-1.3H12Z" />
+                <path
+                  fill="#EA4335"
+                  d="M12 10.2v3.9h5.5c-.24 1.3-1.7 3.8-5.5 3.8-3.3 0-6-2.7-6-6.1s2.7-6.1 6-6.1c1.9 0 3.1.8 3.9 1.5l2.6-2.5C16.9 3.2 14.7 2.2 12 2.2 6.8 2.2 2.6 6.4 2.6 11.8S6.8 21.4 12 21.4c6.9 0 9.6-4.8 9.6-7.3 0-.5 0-.9-.1-1.3H12Z"
+                />
               </svg>
+
               Continue with Google
             </button>
           </form>
 
           <p className="mt-6 text-center text-sm text-ink-soft">
             New user?{" "}
-            <a href="/register" className="font-semibold text-clay hover:text-clay-dark">
+            <a
+              href="/register"
+              className="font-semibold text-clay hover:text-clay-dark"
+            >
               Register
             </a>
           </p>
