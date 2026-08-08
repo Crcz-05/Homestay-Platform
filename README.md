@@ -185,3 +185,20 @@ https://homestay-backend-aqcn.onrender.com
 * The frontend-backend integration is currently being finalized. Some features, such as loading homestays, may not work until the API connection/CORS configuration is completed.
 
 ```
+## Deployment Screenshots
+
+### Vercel Frontend Deployment
+
+![Vercel deployment](./screenshots/vercel-deployment.png)
+
+### Render Backend Deployment
+
+![Render deployment](./screenshots/render-deployment.png)
+
+### Live Application
+
+![Live application](./screenshots/live-homepage.png)
+
+### AI Feature
+
+![AI recommendation feature](./screenshots/ai-feature.png)
